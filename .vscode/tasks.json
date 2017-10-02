@@ -9,7 +9,7 @@
             "command": "c++",
             "args": [
                 "-std=c++14",
-                "./helloWorld/hello.cpp"
+                "./testStringEncode/test.cpp"
             ],
             "group": {
                 "kind": "build",
