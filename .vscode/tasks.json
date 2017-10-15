@@ -4,12 +4,25 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "build hello world",
+            "taskName": "build test.cpp",
             "type": "shell",
             "command": "c++",
             "args": [
                 "-std=c++14",
                 "./testStringEncode/test.cpp"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "taskName": "build test Generic",
+            "type": "shell",
+            "command": "c++",
+            "args": [
+                "-std=c++14",
+                "./testGeneric/main.cpp"
             ],
             "group": {
                 "kind": "build",
