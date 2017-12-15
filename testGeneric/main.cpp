@@ -1,39 +1,57 @@
 #include <iostream>
-#include <algorithm>
-#include <queue>
-
+#include <utility>
+#include <vector>
+#include <string>
 
 using namespace std;
 
-void testLowerbound()
-{
-    int array[] ={ 0,1,4,4,4,5,7,10 };
-    size_t n = sizeof(array)/sizeof(array[0]);
-    int * p = lower_bound(&array[0], &array[n], 3);
 
-    for_each(&array[0], &array[n], [](const int& n) { std::cout << " " << n; });
-    cout << endl;
-    cout << "the lower bound point to value: " << *p << endl;
-    cout << "number count: " << distance(&array[0], p) << endl;
- 
-}
+class ResourceHolder
+{
+private:
+    string m_resource;
+public:
+    ResourceHolder()
+    : m_resource("--")
+    {
+        cout << "/ default cons /";
+    }
+    ResourceHolder(const string & assign)
+    : m_resource(assign)
+    {
+        cout << m_resource << "/ string cons /";
+    }
+    ResourceHolder(const ResourceHolder & rhs)
+    : m_resource(rhs.m_resource)
+    {
+        cout << m_resource << "/ copy cons /";
+    }
+    ResourceHolder & operator=(ResourceHolder copied)
+    {
+        cout << m_resource << "/ op= /";
+        this->swap(copied);
+        return *this;
+    }
+    void swap(ResourceHolder & second)
+    {
+        std::swap(m_resource, second.m_resource);
+        cout << m_resource << "/ my swap /";
+    }
+    ~ResourceHolder()
+    {
+        cout << m_resource << "/ destruct /";
+    }
+};
+
 int main()
 {
-
-    //testLowerbound();
-
-    int a[] = {1,9,4,6,3,5};
-    priority_queue<int, vector<int>, greater<int>> q;
-    for(auto i : a)
-    {
-        q.push(i);
-    }
-
-    while (!(q.empty()))
-    {
-        cout << q.top() << ",";
-        q.pop();
-    }
+    ResourceHolder rh1; 
+    cout << endl;
+    ResourceHolder rh2("dog"), rh3("cat");
+    cout << endl;
+    rh1 = rh2;
+    cout << endl;
+    std::swap(rh2, rh3);
     cout << endl;
     return 0;
 }

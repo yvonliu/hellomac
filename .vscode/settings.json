@@ -8,6 +8,23 @@
         "iterator": "cpp",
         "string": "cpp",
         "vector": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "queue": "cpp",
+        "iostream": "cpp",
+        "__functional_03": "cpp",
+        "__string": "cpp",
+        "deque": "cpp",
+        "functional": "cpp",
+        "system_error": "cpp",
+        "*.tcc": "cpp",
+        "__mutex_base": "cpp",
+        "ios": "cpp",
+        "istream": "cpp",
+        "memory": "cpp",
+        "ostream": "cpp",
+        "streambuf": "cpp",
+        "string_view": "cpp",
+        "thread": "cpp",
+        "tuple": "cpp"
     }
 }
