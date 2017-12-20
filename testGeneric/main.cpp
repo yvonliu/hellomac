@@ -43,8 +43,9 @@ public:
     }
 };
 
-int main()
+void testCopyCon()
 {
+
     ResourceHolder rh1; 
     cout << endl;
     ResourceHolder rh2("dog"), rh3("cat");
@@ -53,5 +54,9 @@ int main()
     cout << endl;
     std::swap(rh2, rh3);
     cout << endl;
+}
+int main()
+{
+    testCopyCon();
     return 0;
 }
