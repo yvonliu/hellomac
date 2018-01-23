@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.log.*": "log",
         "chrono": "cpp",
         "algorithm": "cpp",
         "__bit_reference": "cpp",
@@ -25,6 +26,7 @@
         "streambuf": "cpp",
         "string_view": "cpp",
         "thread": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "utility": "cpp"
     }
 }

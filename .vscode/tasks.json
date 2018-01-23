@@ -37,8 +37,14 @@
             "command": "c++",
             "args": [
                 "-std=c++14",
+                "-O0",
+                "-g",
                 "./testGeneric/main.cpp",
-                "./testGeneric/testStd.cpp"
+                "./testGeneric/testStd.cpp",
+                "./testGeneric/testAsm.cpp",
+                "./testGeneric/testUniquePtr.cpp",
+                "./testGeneric/testCopyOpEq.cpp",
+                "./testGeneric/testMoveCopy.cpp"
             ],
             "group": {
                 "kind": "build",

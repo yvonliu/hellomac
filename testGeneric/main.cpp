@@ -4,38 +4,22 @@
 #include <string>
 #include <memory>
 
-
 using namespace std;
 
-class inner 
+struct AnInt 
 {
-public:
-    inner() 
-    {
-        cout << "inner defaut ctor" << endl;
-    }
-    ~inner()
-    {
-        cout << "inner dtor" << endl;
-    }
-};
-class outer 
-{
-private:
-    unique_ptr<inner> m_inner;
-public:
-    outer() : m_inner(nullptr)
-    {
-        m_inner = make_unique<inner>();
-        cout << "end of outer ctro" << endl;
-    }
+    unsigned int b0     : 1;
+    unsigned int b12    : 2;
+    unsigned int bA     : 7;
+    unsigned int bOth   : 22;
 };
 
 int main()
 {
-    cout << "main" << endl;
-    outer o;
+    unsigned int i = 99;
+    AnInt * p = reinterpret_cast<AnInt*>(&i);
 
-    cout << " after making o, quit" << endl;
+    cout << hex << p-> b0 << ":" << p->b12 << ":" << p->bA << ":" << p->bOth << endl;
+
     return 0;
 }
