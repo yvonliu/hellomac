@@ -37,9 +37,47 @@
             "command": "c++",
             "args": [
                 "-std=c++14",
+                "./testGeneric/main.cpp",
+                "./testGeneric/testSmallNewThings.cpp",
+                "./testGeneric/testStd.cpp",
+                "./testGeneric/testAsm.cpp",
+                "./testGeneric/testUniquePtr.cpp",
+                "./testGeneric/testCopyOpEq.cpp",
+                "./testGeneric/testMoveCopy.cpp"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "build test Generic (debug)",
+            "type": "shell",
+            "command": "c++",
+            "args": [
+                "-std=c++14",
                 "-O0",
                 "-g",
                 "./testGeneric/main.cpp",
+                "./testGeneric/testSmallNewThings.cpp",
                 "./testGeneric/testStd.cpp",
                 "./testGeneric/testAsm.cpp",
                 "./testGeneric/testUniquePtr.cpp",
