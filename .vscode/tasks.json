@@ -37,13 +37,7 @@
             "command": "c++",
             "args": [
                 "-std=c++14",
-                "./testGeneric/main.cpp",
-                "./testGeneric/testSmallNewThings.cpp",
-                "./testGeneric/testStd.cpp",
-                "./testGeneric/testAsm.cpp",
-                "./testGeneric/testUniquePtr.cpp",
-                "./testGeneric/testCopyOpEq.cpp",
-                "./testGeneric/testMoveCopy.cpp"
+                "./testGeneric/main.cpp"
             ],
             "group": {
                 "kind": "build",
@@ -76,13 +70,7 @@
                 "-std=c++14",
                 "-O0",
                 "-g",
-                "./testGeneric/main.cpp",
-                "./testGeneric/testSmallNewThings.cpp",
-                "./testGeneric/testStd.cpp",
-                "./testGeneric/testAsm.cpp",
-                "./testGeneric/testUniquePtr.cpp",
-                "./testGeneric/testCopyOpEq.cpp",
-                "./testGeneric/testMoveCopy.cpp"
+                "./testGeneric/main.cpp"
             ],
             "group": {
                 "kind": "build",
