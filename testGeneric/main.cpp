@@ -1,69 +1,236 @@
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <tuple>
 #include <cstdint>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
+#include <string>
+#include <unordered_map>
+#include <sstream>
+
+const char INPUT[] = "sample.in";
 
 using namespace std;
-
-void print_addrinfo(addrinfo * ai)
+void gbus()
 {
-    if (AF_INET == ai->ai_family )
-    {
-        sockaddr_in * addr = reinterpret_cast<sockaddr_in*>(ai->ai_addr);
-        cout << "sin_family: " << (int) addr->sin_family << endl;
-        cout << "sin_port: " << ntohs(addr->sin_port)<< endl;
-        cout << "sin_addr: " << addr->sin_addr.s_addr << endl;
+    ifstream input(INPUT);
 
-        char buf[INET_ADDRSTRLEN] = {0};
-        inet_ntop(AF_INET, &(addr->sin_addr), buf, sizeof(buf));
-        cout << buf << endl;
-    }
-    else if (AF_INET6 == ai->ai_family)
-    {
-        sockaddr_in6 * addr = reinterpret_cast<sockaddr_in6*>(ai->ai_addr);
-        cout << "sin_family: " << (int) addr->sin6_family << endl;
-        cout << "sin_port: " << ntohs(addr->sin6_port) << endl;
-        cout << "sin_addr: ";
+    int testSet = 0;
 
-        char buf[INET6_ADDRSTRLEN] = {0};
-        inet_ntop(AF_INET6, &(addr->sin6_addr), buf, sizeof(buf));
-        cout << buf << endl;
+    input >> testSet;
+    cerr << "number of test set: " << testSet << endl;
+
+    for (int i = 0; i < testSet; ++i)
+    {
+        int buses = 0;
+        input >> buses;
+        cerr << buses << " buses." << endl;
+
+        int maxCityNumber = 0;
+        vector<pair<int, int>> busRoute;
+
+        for (int j = 0; j < buses; ++j)
+        {
+            pair<int, int> route;
+            input >> route.first >> route.second;
+            cerr << "route " << j << ": " << route.first << "<>" << route.second << endl;
+            if (route.second > maxCityNumber) maxCityNumber = route.second;
+            busRoute.push_back(route);
+        }
+        cerr << "max city:" << maxCityNumber << endl;
+        vector<int> solution(maxCityNumber, 0);
+
+        for (auto r : busRoute)
+        {
+            for (int x = r.first; x <= r.second; x++)
+                solution[x]++;
+        }
+
+        int testCases = 0;
+        input >> testCases;
+        cerr << testCases << " test cases." << endl;
+
+        cout << "Case #" << i+1 << ":";
+
+        for (int k = 0; k < testCases; k++)
+        {
+            int cityId = 0;
+            input >> cityId;
+            if (cityId >0 && cityId <= maxCityNumber)
+            {
+                cerr << "city " << cityId << ": " << solution[cityId] << endl;
+                cout << " " << solution[cityId];
+            }
+            else
+            {
+                cerr << "city " << cityId << "(out of range): " << 0 << endl;
+                cout << " 0";
+
+            }
+
+        }
+        cout << endl;
+    } 
+}
+
+uint64_t findPivot(uint64_t index)
+{
+    int i = 0;
+    uint64_t pivot = 1;
+    while (index > 1)
+    {
+        i++;
+        index >>= 1;
     }
+    pivot <<= i;
+    cerr << "pivot(" << i << "):" << pivot << endl;
+    return pivot;
+}
+int findGS(uint64_t index)
+{
+    cerr << "findgs::" << index << endl;
+    uint64_t p = findPivot(index);
+
+    if (index > p)
+    {
+        return 1 ^ findGS(p - (index - p));
+    }
+    else if (index == p)
+    {
+        return 0;
+    }
+    else
+    {
+        cerr << "!?" << endl;
+    }
+
+
+    return 0;
+}
+void findGoggolString()
+{
+    ifstream input(INPUT);
+
+    int testSet = 0;
+
+    input >> testSet;
+    cerr << "number of test set: " << testSet << endl;
+ 
+    for (int i = 0; i < testSet; ++i)
+    {
+        uint64_t index=0;
+        input >> index;
+        cout << "Case #" << i+1 << ": " << findGS(index) << endl;;
+    }
+}
+class ticket
+{
+public:
+    string origin;
+    string destination;
+    ticket * nextTicket;
+
+    ticket(string ori, string dest) : origin(ori), destination(dest), nextTicket(nullptr) {}
+};
+void sortTicket(std::vector<ticket*> tickets)
+{
+    using namespace std;
+
+    unordered_map<string, ticket *> destMap;
+    unordered_map<string, ticket *> originMap;
+ 
+    // build maps
+    for (auto t : tickets)
+    {
+        destMap[t->destination] = t;
+        originMap[t->origin] = t;
+    }
+
+    ticket * pHead = tickets[0];
+    while (true)
+    {
+        auto prev = destMap.find(pHead->origin);
+        if (prev != destMap.end())
+        {
+            prev->second->nextTicket = pHead;
+            pHead = prev->second;
+        }
+        else
+        {
+            break;
+        }
+    }
+    ticket * pTail = tickets[0];
+    while (true)
+    {
+        auto next = originMap.find(pTail->destination);
+        if (next != originMap.end())
+        {
+            pTail->nextTicket = next->second;
+            pTail = next->second;
+        }
+        else
+        {
+            pTail->nextTicket = nullptr;
+            break;
+        }
+    }
+    while (pHead != nullptr)
+    {
+        cout << pHead->origin << "-" << pHead->destination << " "; 
+        pHead = pHead->nextTicket;
+    }
+    
+}
+void sortTicketMain()
+{
+   using namespace std;
+
+    vector<ticket *> tickets;
+
+    ifstream input(INPUT);
+
+    int testSet = 0;
+
+    input >> testSet;
+    cerr << "number of test set: " << testSet << endl;
+ 
+    for (int i = 0; i < testSet; ++i)
+    {
+        int numTickets =0;
+        input >> numTickets;
+        for (int j = 0; j < numTickets; j++)
+        {
+            string o, d;
+            input >> o; input >> d;
+
+            tickets.push_back(new ticket(o, d));
+        }
+        cout << "Case #" << i+1 << ": ";
+        sortTicket(tickets);
+        cout << endl;
+        for (auto t : tickets)
+        {
+            delete t;
+        }
+        tickets.clear();
+    } 
+
 }
 int main(int argc, char** argv)
 {
-    addrinfo * ai;
-    addrinfo hints = {0};
+    using namespace std;
+    std::stringstream ss;
 
-    hints.ai_flags = AI_ADDRCONFIG;
-    hints.ai_socktype = SOCK_STREAM;
+    ss << "hello world" << std::ends;
 
-    int e = getaddrinfo(argv[1], "http", &hints, &ai);
-    if (e != 0)
+    char c;
+
+    while (ss >> c)
     {
-        cout << "error getaddrinfo: " << e << endl;
-        return e;
+        cout << ":" << c << endl;
     }
 
-    for (addrinfo * p = ai; p != NULL; p = ai->ai_next)
-    {
-        print_addrinfo(p);
-        int sock = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-        if (sock != -1)
-        {
-            if (0 == connect(sock, p->ai_addr, p->ai_addrlen))
-            {
-                cout << "!!!connected!!!" << endl;
-                close(sock);
-                break;
-            }
-            cout << "no connection..." << endl;
-            close(sock);
-        }
-    }
-    freeaddrinfo(ai);
+    
+    
     return 0;
 }
