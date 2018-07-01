@@ -35,6 +35,11 @@
         "new": "cpp",
         "stdexcept": "cpp",
         "type_traits": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "locale": "cpp",
+        "__hash_table": "cpp",
+        "list": "cpp",
+        "regex": "cpp",
+        "unordered_map": "cpp"
     }
 }
